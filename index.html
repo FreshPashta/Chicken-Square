@@ -1,1588 +1,550 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta
-    name="description"
-    content="Chicken Square is a backyard chicken reference app made just for you, Kaubs!"
-  />
+  <meta name="theme-color" content="#4659c7" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Chicken Square</title>
-  <link rel="icon" type="image/png" href="logo.png" />
-
   <style>
     :root {
-      --bg: #101417;
-      --bg-2: #0d1216;
-      --surface: #182026;
-      --surface-2: #22303a;
-      --surface-3: #2b3d49;
-      --text: #eef4f7;
-      --muted: #b7c7cf;
-      --accent: #6bb6ff;
-      --accent-2: #8ed1c7;
-      --danger: #ff6b6b;
-      --warning: #ffb04d;
-      --ok: #8bcf6a;
-      --border: #324651;
-      --shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
-      --radius: 16px;
-      --maxw: 1120px;
-      --space-1: 8px;
-      --space-2: 12px;
-      --space-3: 16px;
-      --space-4: 20px;
-      --space-5: 28px;
-      --space-6: 36px;
+      --bg-color: #121212;
+      --surface-color: #1e1e1e;
+      --surface-light: #2c2c2c;
+      --surface-lighter: #353535;
+      --text-primary: #ffffff;
+      --text-secondary: #b3b3b3;
+      --accent-color: #5d9cec;
+      --accent-hover: #4a89dc;
+      --accent-soft: rgba(93, 156, 236, 0.15);
+      --emergency: #ed5565;
+      --urgent: #fc6e51;
+      --monitor: #4fc1e9;
+      --routine: #a0d468;
+      --border-color: #333333;
+      --border-radius: 10px;
+      --spacing-sm: 8px;
+      --spacing-md: 16px;
+      --spacing-lg: 24px;
+      --spacing-xl: 32px;
+      --shadow: 0 8px 20px rgba(0,0,0,.18);
+      --maxw: 1080px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
-      color: var(--text);
-      line-height: 1.55;
-      padding-bottom: 74px;
+      background: linear-gradient(180deg, #4c5fd0 0%, #355fbe 16%, #18202b 40%, #121212 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding-bottom: 64px;
     }
-
-    h1, h2, h3, h4 {
-      margin: 0 0 var(--space-3);
-      line-height: 1.2;
-    }
-
-    p {
-      margin: 0 0 var(--space-3);
-      color: var(--muted);
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    a {
-      color: var(--accent);
-    }
-
-    .container {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: var(--space-4);
-    }
-
+    h1, h2, h3, h4 { margin-bottom: var(--spacing-sm); color: var(--text-primary); line-height: 1.2; }
+    p { margin-bottom: var(--spacing-md); color: var(--text-secondary); }
+    ul { padding-left: 18px; margin-bottom: var(--spacing-md); }
+    li { margin-bottom: 8px; color: var(--text-secondary); }
+    strong { color: var(--text-primary); }
+    a { color: var(--accent-color); }
+    .container { max-width: var(--maxw); margin: 0 auto; padding: var(--spacing-md); }
     nav {
+      background: linear-gradient(90deg, rgba(76,95,208,0.94), rgba(53,95,190,0.90));
+      backdrop-filter: blur(10px);
+      padding: 12px 16px;
       position: sticky;
       top: 0;
-      z-index: 30;
-      backdrop-filter: blur(12px);
-      background: rgba(16, 20, 23, 0.88);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .nav-inner {
-      max-width: var(--maxw);
-      margin: 0 auto;
-      padding: 12px 16px;
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-    }
-
-    .nav-btn,
-    .btn {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-size: 15px;
-      transition: 0.18s ease;
-    }
-
-    .nav-btn:hover,
-    .btn:hover {
-      transform: translateY(-1px);
-      background: var(--surface-2);
-    }
-
-    .nav-btn.active {
-      background: var(--surface-3);
-      color: var(--accent);
-      border-color: #47606e;
-    }
-
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: var(--space-5);
-      box-shadow: var(--shadow);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: var(--space-4);
-      margin-top: var(--space-5);
-      align-items: stretch;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.1rem, 4vw, 3.5rem);
-      margin-bottom: 8px;
-    }
-
-    .lead {
-      font-size: 1.03rem;
-      max-width: 66ch;
-    }
-
-    .brand-lockup {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 18px;
-    }
-
-    .brand-copy {
-      flex: 1 1 auto;
-      min-width: 0;
-    }
-
-    .brand-copy p {
-      margin-bottom: 0;
-    }
-
-    .brand-logo {
-      width: 148px;
-      height: 148px;
-      border-radius: 24px;
-      object-fit: cover;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: #182026;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.24);
-      flex: 0 0 auto;
-    }
-
-    .button-row,
-    .pill-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: #0f161b;
-      border-color: transparent;
-      font-weight: 700;
-    }
-
-    .btn.secondary {
-      background: var(--surface);
-    }
-
-    .mini-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.92rem;
-      color: var(--muted);
-      background: rgba(255,255,255,0.02);
-    }
-
-    .grid-2,
-    .grid-3 {
-      display: grid;
-      gap: var(--space-4);
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .section-title {
-      margin-top: var(--space-6);
-      margin-bottom: var(--space-3);
-    }
-
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    .small {
-      font-size: 0.92rem;
-    }
-
-    .tiny {
-      font-size: 0.84rem;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-4);
-    }
-
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    select,
-    input[type="text"] {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--surface-2);
-      color: var(--text);
-      padding: 12px 14px;
-      font-size: 15px;
-    }
-
-    .option-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .option {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px;
-      cursor: pointer;
-      margin-bottom: 0;
-    }
-
-    .option:hover {
-      background: #2a3944;
-    }
-
-    .option input {
-      margin-top: 2px;
-    }
-
-    .result-shell {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: var(--space-4);
-      align-items: start;
-    }
-
-    .result-card {
-      border-left: 7px solid var(--accent);
-    }
-
-    .level-emergency {
-      border-left-color: var(--danger);
-    }
-
-    .level-urgent {
-      border-left-color: var(--warning);
-    }
-
-    .level-soon {
-      border-left-color: var(--accent);
-    }
-
-    .level-routine {
-      border-left-color: var(--ok);
-    }
-
-    .status-tag {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      font-size: 0.92rem;
-    }
-
-    .status-emergency {
-      background: rgba(255,107,107,0.13);
-      color: #ff9b9b;
-    }
-
-    .status-urgent {
-      background: rgba(255,176,77,0.13);
-      color: #ffcf8a;
-    }
-
-    .status-soon {
-      background: rgba(107,182,255,0.13);
-      color: #a8d6ff;
-    }
-
-    .status-routine {
-      background: rgba(139,207,106,0.15);
-      color: #bde79a;
-    }
-
-    .alert {
-      border: 1px solid var(--border);
-      border-left: 5px solid var(--accent);
-      border-radius: 12px;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.03);
-      margin-bottom: var(--space-3);
-    }
-
-    .alert.warn {
-      border-left-color: var(--warning);
-    }
-
-    .alert.danger {
-      border-left-color: var(--danger);
-    }
-
-    .alert.ok {
-      border-left-color: var(--ok);
-    }
-
-    .checklist li,
-    .history-list li {
-      margin-bottom: 10px;
-      color: var(--muted);
-    }
-
-    .cards-stack {
-      display: grid;
-      gap: 12px;
-    }
-
-    .edu-card h3 {
-      color: var(--accent);
-    }
-
-    .resource-list a {
-      text-decoration: none;
-      display: block;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      padding: 14px;
-      border-radius: 12px;
-      color: var(--text);
-      height: 100%;
-    }
-
-    .resource-list a:hover {
-      background: #2a3944;
-    }
-
-    .result-section-title {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      letter-spacing: 0.01em;
-    }
-
-    .diagnosis-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .diagnosis-card {
-      border: 1px solid rgba(120, 160, 220, 0.18);
-      border-radius: 18px;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .diagnosis-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .confidence-chip {
-      border: 1px solid rgba(120, 160, 220, 0.25);
-      border-radius: 999px;
-      padding: 5px 10px;
-      font-size: 0.78rem;
-      color: var(--text);
-      white-space: nowrap;
-    }
-
-    .score-wrap {
-      height: 7px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      overflow: hidden;
-      margin: 8px 0 10px;
-    }
-
-    .score-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(244,167,68,0.55), rgba(96,165,250,0.8));
-    }
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .detail-box {
-      border: 1px solid rgba(120, 160, 220, 0.15);
-      border-radius: 14px;
-      padding: 12px;
-      background: rgba(255,255,255,0.02);
-    }
-
-    .detail-box strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .empty-state {
-      color: var(--muted);
-    }
-
-    .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      text-align: center;
-      padding: 12px 16px;
-      background: rgba(16,20,23,0.95);
-      border-top: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    @media print {
-      nav,
-      .button-row,
-      .footer {
-        display: none !important;
-      }
-
-      body {
-        background: #fff;
-        color: #000;
-        padding-bottom: 0;
-      }
-
-      .card {
-        box-shadow: none;
-        background: #fff;
-      }
-
-      p,
-      li {
-        color: #111;
-      }
-
-      .view {
-        display: none !important;
-      }
-
-      #view-results.active {
-        display: block !important;
-      }
-
-      a {
-        color: #000;
-        text-decoration: underline;
-      }
-    }
-
-    @media (max-width: 980px) {
-      .hero,
-      .result-shell,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .grid-2,
-      .form-grid,
-      .detail-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        padding: 20px;
-      }
-
-      .brand-lockup {
-        align-items: flex-start;
-        gap: 16px;
-      }
-
-      .brand-logo {
-        width: 108px;
-        height: 108px;
-      }
-
-      .diagnosis-head {
-        align-items: flex-start;
-      }
-    }
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .nav-shell { max-width: var(--maxw); margin: 0 auto; position: relative; }
+    .nav-toggle {
+      display: none; width: 100%; align-items: center; justify-content: space-between; gap: 12px;
+      background: rgba(30,30,30,0.45); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary);
+      padding: 12px 14px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer;
+    }
+    .nav-toggle-label { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .nav-toggle-page { color: var(--text-secondary); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .nav-inner { max-width: var(--maxw); margin: 0 auto; display: flex; gap: 10px; align-items: center; }
+    nav button {
+      background: none; border: none; color: var(--text-secondary); font-size: 15px; cursor: pointer;
+      padding: 10px 14px; white-space: nowrap; border-radius: var(--border-radius); transition: all 0.2s ease;
+    }
+    nav button:hover { background-color: var(--surface-light); color: var(--text-primary); }
+    nav button.active { background-color: var(--surface-light); color: var(--accent-color); font-weight: 700; }
+    .view { display: none; animation: fadeIn 0.25s ease; }
+    .view.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .card { background-color: var(--surface-color); border-radius: var(--border-radius); padding: var(--spacing-lg); margin-bottom: var(--spacing-md); border: 1px solid var(--border-color); box-shadow: var(--shadow); }
+    .hero { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: var(--spacing-md); align-items: stretch; margin-top: var(--spacing-md); }
+    .brand-lockup { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-lg); margin-bottom: var(--spacing-md); }
+    .brand-copy h1 { font-size: clamp(2.1rem, 4vw, 3.4rem); margin-bottom: 10px; }
+    .lead { font-size: 1.02rem; max-width: 62ch; }
+    .grid-2, .grid-3 { display: grid; gap: var(--spacing-md); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .button-row { display: flex; gap: var(--spacing-md); flex-wrap: wrap; margin-top: var(--spacing-md); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; background-color: var(--accent-color); color: white; border: none; padding: 12px 18px; font-size: 15px; border-radius: var(--border-radius); cursor: pointer; font-weight: 700; transition: background-color 0.2s ease; }
+    .btn:hover { background-color: var(--accent-hover); }
+    .btn-secondary { background-color: var(--surface-light); color: var(--text-primary); border: 1px solid var(--border-color); }
+    .btn-secondary:hover { background-color: var(--surface-lighter); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); }
+    .form-group { margin-bottom: var(--spacing-md); }
+    label { display: block; margin-bottom: 7px; font-weight: 600; }
+    select { width: 100%; padding: 12px; background-color: var(--surface-light); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: var(--border-radius); font-size: 15px; }
+    .checkbox-group { display: grid; gap: 10px; }
+    .checkbox-label { display: flex; align-items: flex-start; gap: 12px; padding: 12px; background-color: var(--surface-light); border: 1px solid var(--border-color); border-radius: var(--border-radius); cursor: pointer; }
+    .checkbox-label:hover { background-color: #393939; border-color: #444; }
+    input[type="checkbox"], input[type="radio"] { width: 18px; height: 18px; cursor: pointer; margin-top: 2px; }
+    .pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .pill { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: var(--surface-light); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.88rem; }
+    .level-card { border-left: 6px solid var(--monitor); }
+    .level-Emergency { border-left-color: var(--emergency); }
+    .level-Urgent { border-left-color: var(--urgent); }
+    .level-Soon { border-left-color: var(--monitor); }
+    .level-Routine { border-left-color: var(--routine); }
+    .tag { display: inline-block; padding: 5px 9px; border-radius: 6px; font-weight: 700; margin-bottom: 10px; font-size: 0.88rem; }
+    .tag-Emergency { background: rgba(237,85,101,0.18); color: var(--emergency); }
+    .tag-Urgent { background: rgba(252,110,81,0.18); color: var(--urgent); }
+    .tag-Soon { background: rgba(79,193,233,0.18); color: var(--monitor); }
+    .tag-Routine { background: rgba(160,212,104,0.18); color: var(--routine); }
+    .alert { padding: var(--spacing-md); border-radius: var(--border-radius); margin-bottom: var(--spacing-md); background-color: rgba(255,255,255,0.05); border-left: 4px solid var(--text-secondary); }
+    .alert-warning { background-color: rgba(237,85,101,0.12); border-left-color: var(--emergency); }
+    .alert-info { background-color: rgba(93,156,236,0.12); border-left-color: var(--accent-color); }
+    .results-layout { display: grid; grid-template-columns: 1.02fr 0.98fr; gap: var(--spacing-md); align-items: start; }
+    .diagnosis-list { display: grid; gap: 12px; }
+    .diagnosis-card { background: var(--surface-light); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 14px; }
+    .diagnosis-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .confidence-chip { background: var(--accent-soft); color: var(--accent-color); border: 1px solid rgba(93,156,236,.25); border-radius: 999px; padding: 4px 9px; font-size: 0.78rem; font-weight: 700; }
+    .score-track { width: 100%; height: 8px; border-radius: 999px; background: #262626; overflow: hidden; margin-bottom: 10px; }
+    .score-fill { height: 100%; background: linear-gradient(90deg, #4a89dc, #5d9cec); }
+    .recipe-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: var(--spacing-md); }
+    .recipe-pill { display: inline-flex; align-items: center; padding: 8px 12px; border-radius: 999px; background: var(--surface-light); border: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.9rem; }
+    .recipe-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: var(--spacing-md); align-items: start; }
+    .history-item { padding: var(--spacing-md); border-bottom: 1px solid var(--border-color); }
+    .history-meta { font-size: 0.84rem; color: var(--text-secondary); display: flex; justify-content: space-between; margin-bottom: 4px; }
+    @media print { nav, .btn, .no-print { display: none !important; } body { background: white; color: black; } .card { border: 1px solid #ccc; background: transparent; } .view { display: none !important; } #view-results.active { display: block !important; } }
+    @media (max-width: 700px) { .grid-2, .form-grid { grid-template-columns: 1fr; } .results-layout, .hero, .recipe-grid { grid-template-columns: 1fr; } .nav-toggle { display: flex; } .nav-inner { display: none; position: absolute; top: calc(100% + 10px); left: 0; right: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; background: rgba(21,24,37,0.98); padding: 12px; border-radius: 16px; box-shadow: 0 14px 30px rgba(0,0,0,.28); } .nav-inner.open { display: grid; } .nav-inner button { width: 100%; text-align: left; } }
   </style>
 </head>
 <body>
-  <nav aria-label="Main navigation">
-    <div class="nav-inner">
-      <button class="nav-btn active" data-view="home">Home</button>
-      <button class="nav-btn" data-view="checker">Symptom Checker</button>
-      <button class="nav-btn" data-view="results">Results</button>
-      <button class="nav-btn" data-view="learn">Care & Learning</button>
-      <button class="nav-btn" data-view="history">History</button>
-      <button class="nav-btn" data-view="sources">Sources</button>
+  <nav>
+    <div class="nav-shell">
+      <button class="nav-toggle" id="navToggle" type="button" onclick="toggleMobileMenu()">
+        <span class="nav-toggle-label"><span>Menu</span><span class="nav-toggle-page" id="navCurrentLabel">Home</span></span>
+        <span class="nav-toggle-icon" id="navToggleIcon">☰</span>
+      </button>
+      <div class="nav-inner" id="navMenu">
+        <button id="nav-home" class="active" onclick="navigate('home')">Home</button>
+        <button id="nav-symptom-checker" onclick="navigate('symptom-checker')">Symptom Checker</button>
+        <button id="nav-results" onclick="navigate('results')">Results</button>
+        <button id="nav-learn" onclick="navigate('learn')">Care & Learning</button>
+        <button id="nav-history" onclick="navigate('history')">History</button>
+        <button id="nav-recipe" onclick="openRecipeMenu()">Chicken Squares</button>
+        <button id="nav-sources" onclick="navigate('sources')">Sources</button>
+      </div>
     </div>
   </nav>
-
   <main class="container">
-    <section class="view active" id="view-home">
+    <section id="view-home" class="view active">
       <div class="hero">
         <div class="card">
           <div class="brand-lockup">
             <div class="brand-copy">
-              <h1 id="home-title">Chicken Square</h1>
-              <p class="lead">
-                A backyard chicken reference app built just for you, Kaubs!
-              </p>
+              <h1>Chicken Square</h1>
+              <p class="lead">A backyard chicken reference app designed just for you!</p>
+              <p>Identify possible concerns using everyday terms while relying on accurate veterinary logic.</p>
             </div>
-
-            <img
-              src="logo.png"
-              alt="Chicken Square logo"
-              class="brand-logo"
-            />
           </div>
-
           <div class="button-row">
-            <button class="btn primary" id="start-checker-btn">Start symptom checker</button>
-            <button class="btn secondary" data-view-target="learn">Open learning center</button>
+            <button class="btn" onclick="navigate('symptom-checker')">Start symptom checker</button>
+            <button class="btn btn-secondary" onclick="navigate('learn')">Open learning center</button>
           </div>
         </div>
-
         <div class="card">
-          <h3>Quick app summary</h3>
-          <ul class="checklist">
-            <li>General chicken care and education in one place</li>
-            <li>Symptom checker that uses age, bird type, and symptom combinations</li>
-            <li>Likely condition patterns instead of a single hard diagnosis</li>
-            <li>History saved only in the browser on this device</li>
-          </ul>
-        </div>
-      </div>
-
-      <h2 class="section-title">How to use it</h2>
-      <div class="grid-3">
-        <div class="card">
-          <h3>1. Enter what you see</h3>
-          <ul class="checklist">
-            <li>Select the signs that match the bird</li>
-            <li>Add bird type, age, and timing</li>
-            <li>Note whether more than one bird is affected</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>2. Review the result</h3>
-          <ul class="checklist">
-            <li>Get a simple urgency level</li>
-            <li>See likely matching concern patterns</li>
-            <li>Review what to monitor next</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>3. Save or print</h3>
-          <ul class="checklist">
-            <li>Keep a browser-only history of checks</li>
-            <li>Print a result summary if needed</li>
-            <li>Use the sources tab for reference links</li>
+          <h3>What this does</h3>
+          <ul>
+            <li>Separates broad respiratory disease from highly contagious strains like HPAI, Newcastle, and ILT.</li>
+            <li>Uses age and bird type to identify specific risks like coccidiosis in chicks or egg-binding in layers.</li>
+            <li>Provides clear next steps and care instructions based on established stewardship guidelines.</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="view" id="view-checker">
+    <section id="view-symptom-checker" class="view">
       <div class="card">
         <h2>Symptom Checker</h2>
-        <p>
-          Choose the observations that best fit what you are seeing. The result
-          combines bird details, flock context, and symptom combinations to suggest
-          likely patterns and urgency.
-        </p>
+        <p>Choose the signs that best match what you are seeing. The app maps these descriptions to common chicken diseases and management issues.</p>
       </div>
-
       <div class="grid-2">
         <div class="card">
           <h3>Bird details</h3>
           <div class="form-grid">
-            <div>
-              <label for="bird-type">Bird type</label>
-              <select id="bird-type">
-                <option value="unknown">Unknown</option>
-                <option value="chick">Chick</option>
-                <option value="growing bird">Growing bird</option>
-                <option value="laying hen">Laying hen</option>
-                <option value="rooster">Rooster</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="bird-age">Approximate age</label>
-              <select id="bird-age">
-                <option value="unknown">Unknown</option>
-                <option value="under 4 weeks">Under 4 weeks</option>
-                <option value="1-5 months">1-5 months</option>
-                <option value="6-12 months">6-12 months</option>
-                <option value="1-3 years">1-3 years</option>
-                <option value="over 3 years">Over 3 years</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="duration">How long has this been going on?</label>
-              <select id="duration">
-                <option value="today">Today</option>
-                <option value="less than 24 hours">Less than 24 hours</option>
-                <option value="1-3 days">1-3 days</option>
-                <option value="more than 3 days">More than 3 days</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="trajectory">Current trend</label>
-              <select id="trajectory">
-                <option value="stable">Stable</option>
-                <option value="worsening">Worsening</option>
-                <option value="improving">Improving</option>
-              </select>
-            </div>
+            <div class="form-group"><label>Bird type</label><select id="birdType"></select></div>
+            <div class="form-group"><label>Approximate age</label><select id="birdAge"></select></div>
+            <div class="form-group"><label>Duration</label><select id="duration"></select></div>
+            <div class="form-group"><label>Current trend</label><select id="trajectory"></select></div>
           </div>
         </div>
-
         <div class="card">
           <h3>Flock context</h3>
-          <div class="option-list">
-            <label class="option">
-              <input id="multiple-birds" type="checkbox" />
-              <span>Multiple birds are affected</span>
-            </label>
-
-            <label class="option">
-              <input id="recent-birds" type="checkbox" />
-              <span>New or returning birds were added recently</span>
-            </label>
-
-            <label class="option">
-              <input id="sudden-deaths" type="checkbox" />
-              <span>There have been sudden unexplained deaths</span>
-            </label>
-
-            <label class="option">
-              <input id="egg-drop" type="checkbox" />
-              <span>There is a noticeable drop in egg production or egg quality</span>
-            </label>
-          </div>
+          <div class="checkbox-group" id="contextContainer"></div>
         </div>
       </div>
-
-      <div class="card">
-        <h3>Main signs you see</h3>
-        <div class="grid-2 option-list" id="symptom-list"></div>
-        <div class="button-row" style="margin-top: 20px;">
-          <button class="btn primary" id="run-assessment-btn">Get assessment</button>
-          <button class="btn secondary" id="reset-assessment-btn">Reset</button>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Primary symptom groups</h3>
+          <div class="checkbox-group" id="categoryContainer"></div>
         </div>
+        <div class="card">
+          <h3>Specific signs</h3>
+          <div class="checkbox-group" id="symptomContainer"></div>
+        </div>
+      </div>
+      <div class="button-row">
+        <button class="btn" onclick="runAssessment()">Get assessment</button>
+        <button class="btn btn-secondary" onclick="resetChecker()">Reset</button>
       </div>
     </section>
 
-    <section class="view" id="view-results">
+    <section id="view-results" class="view">
       <div class="card">
         <h2>Assessment Results</h2>
-        <p>
-          The summary below combines bird details, symptom combinations, and flock
-          context to suggest likely patterns, urgency, and what to watch next.
-        </p>
+        <p>This page ranks likely disease or management patterns based on your selections.</p>
       </div>
-
-      <div class="result-shell">
-        <div id="result-main"></div>
-        <div class="cards-stack" id="result-side"></div>
+      <div class="results-layout">
+        <div id="resultsPrimary"></div>
+        <div id="resultsSecondary"></div>
       </div>
-
-      <div class="button-row" style="margin-top: 20px;">
-        <button class="btn secondary" onclick="window.print()">Print</button>
-        <button class="btn primary" data-view-target="checker">Back to checker</button>
+      <div class="button-row no-print">
+        <button class="btn btn-secondary" onclick="window.print()">Print</button>
+        <button class="btn" onclick="navigate('symptom-checker')">Back to checker</button>
       </div>
     </section>
 
-    <section class="view" id="view-learn">
+    <section id="view-learn" class="view">
       <div class="card">
         <h2>Care & Learning</h2>
-        <p>
-          This section keeps the broader chicken-care education in the app while the
-          checker handles symptom pattern matching.
-        </p>
+        <p>Core management practices to keep your flock healthy.</p>
       </div>
-
-      <h2 class="section-title">Daily care fundamentals</h2>
-      <div class="grid-3">
-        <div class="card edu-card">
-          <h3>Housing and airflow</h3>
-          <p>
-            Dry bedding, reasonable ventilation, and a clean living area matter every day.
-            Damp litter and trapped ammonia can affect eyes, skin, feet, and overall flock health.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Feed and water access</h3>
-          <p>
-            One of the simplest practical checks is whether a bird is eating, drinking,
-            and moving normally to food and water. Reduced intake often shows up before
-            a problem is obvious.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Normal daily observation</h3>
-          <p>
-            Use posture, energy, droppings, breathing, gait, egg production, and flock
-            behavior as your everyday baseline. The better the baseline, the easier it
-            is to notice when something has changed.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="section-title">Age-based care</h2>
-      <div class="grid-2">
-        <div class="card edu-card">
-          <h3>Chicks and brooders</h3>
-          <p>
-            Young chicks need supplemental heat and close observation. A practical
-            starting point is about 90-95°F for the first week, then dropping the
-            brooder temperature by about 5°F each week.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Growing and laying birds</h3>
-          <p>
-            As birds mature, the common concerns shift. Growing birds bring mobility
-            and neurologic patterns more into view, while laying hens add reproductive
-            concerns and egg-production clues that can help narrow the likely pattern.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="section-title">Common concern topics</h2>
-      <div class="grid-3">
-        <div class="card edu-card">
-          <h3>Respiratory signs</h3>
-          <p>
-            Coughing, sneezing, discharge, facial swelling, open-mouth breathing, and
-            a drop in egg production can cluster together as a respiratory disease pattern.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Droppings and gut concerns</h3>
-          <p>
-            Watery droppings, blood in droppings, poor intake, and lethargy can fit
-            an intestinal disease pattern. In younger birds, that combination pushes
-            coccidiosis-type concerns higher.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Heat stress</h3>
-          <p>
-            Panting, wings held away from the body, weakness, and collapse after heat
-            exposure fit a heat-stress pattern more than an infectious one, especially
-            when discharge and coughing are absent.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Feet and mobility</h3>
-          <p>
-            A swollen footpad, dark scab, soreness, or limp makes a localized foot
-            problem much more likely. Progressive leg weakness in a younger bird pushes
-            broader neurologic or paralysis patterns higher instead.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Laying-hen issues</h3>
-          <p>
-            Straining, repeated nest-box effort, abdominal swelling, lethargy, and egg
-            changes matter more when the selected bird is actually a laying hen. That is
-            why bird type changes the ranking.
-          </p>
-        </div>
-
-        <div class="card edu-card">
-          <h3>Flock-level clues</h3>
-          <p>
-            Multiple birds affected, new birds added recently, sudden deaths, or a sudden
-            drop in egg production all make flock-level infectious causes more important
-            in the results.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="section-title">Practical care reference</h2>
-      <div class="grid-2">
-        <div class="card">
-          <h3>Useful routine checks</h3>
-          <ul class="checklist">
-            <li>Energy, posture, and normal movement</li>
-            <li>Eating and drinking normally</li>
-            <li>Breathing effort and any coughing or discharge</li>
-            <li>Droppings consistency and presence of blood</li>
-            <li>Foot condition, wounds, and limping</li>
-            <li>Egg production or shell-quality changes in layers</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Flock management basics</h3>
-          <ul class="checklist">
-            <li>Keep feed and water clean and easy to access</li>
-            <li>Keep litter and resting surfaces as dry as possible</li>
-            <li>Reduce crowding and watch airflow in enclosed spaces</li>
-            <li>Separate new or returning birds before mixing them into the flock</li>
-            <li>Track when symptoms are isolated to one bird versus spreading</li>
-            <li>Use the checker again if the pattern changes over time</li>
-          </ul>
-        </div>
-      </div>
+      <div id="learnContent"></div>
     </section>
 
-    <section class="view" id="view-history">
+    <section id="view-history" class="view">
       <div class="card">
         <h2>History</h2>
         <p>Assessments are stored only in this browser.</p>
-        <ul class="history-list" id="history-list"></ul>
-        <div class="button-row">
-          <button class="btn secondary" id="clear-history-btn">Clear history</button>
+        <div id="historyList"></div>
+        <div class="button-row no-print">
+          <button class="btn btn-secondary" onclick="clearHistory()">Clear history</button>
         </div>
       </div>
     </section>
 
-    <section class="view" id="view-sources">
+    <section id="view-recipe" class="view">
+      <div class="card">
+        <h2>Devon's Chicken Squares</h2>
+        <p>A recipe for the best Chicken Squares!</p>
+        <div class="recipe-meta">
+          <span class="recipe-pill">Makes about 8 squares</span>
+          <span class="recipe-pill">Bake at 350°F</span>
+          <span class="recipe-pill">Bake time: 35–40 minutes</span>
+        </div>
+      </div>
+      <div class="recipe-grid">
+        <div class="card">
+          <h3>Ingredients</h3>
+          <ul>
+            <li>8 oz cream cheese</li>
+            <li>2 tbsp butter, plus extra melted butter for brushing</li>
+            <li>4 cups cubed cooked chicken, preferably chicken breasts</li>
+            <li>1/2 tsp salt</li>
+            <li>1/4 tsp pepper</li>
+            <li>2 to 4 tbsp milk</li>
+            <li>2 tbsp chopped chives</li>
+            <li>2 cans crescent rolls</li>
+            <li>Crushed cornflakes, enough to coat</li>
+          </ul>
+        </div>
+        <div class="card recipe-steps">
+          <h3>Instructions</h3>
+          <ol>
+            <li>Cream together the cream cheese and 2 tablespoons of butter until smooth.</li>
+            <li>Mix in the cubed chicken, salt, pepper, 2 to 4 tablespoons of milk, and chopped chives until well combined.</li>
+            <li>Open the 2 cans of crescent rolls and divide each can into 4 rectangle pieces.</li>
+            <li>Use your fingers to smooth together the angled perforations so each piece forms a solid rectangle.</li>
+            <li>Divide the chicken mixture evenly onto the dough pieces.</li>
+            <li>Pull the 4 corners of each rectangle up to the top, twist to seal, and press the edges together well.</li>
+            <li>Brush each square with melted butter.</li>
+            <li>Lift each square with a spatula and place it into crushed cornflakes, coating well by tossing cornflakes over the top and pressing them in.</li>
+            <li>Place the coated squares on an ungreased cookie sheet.</li>
+            <li>Bake at 350°F for 35 to 40 minutes, or until golden brown.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-sources" class="view">
       <div class="card">
         <h2>Sources</h2>
-        <p>These are the reference sources used to shape the educational content and logic in this version of the app.</p>
-      </div>
-
-      <div class="resource-list grid-2">
-        <a href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/defend-the-flock/signs-illness" target="_blank" rel="noopener noreferrer">
-          <strong>USDA APHIS — Defend the Flock: Signs of Illness</strong><br />
-          <span class="muted small">Signs of illness including sudden death, lack of energy and appetite, decreased egg production, swelling, purple discoloration, nasal discharge, coughing, sneezing, incoordination, and diarrhea.</span>
-        </a>
-
-        <a href="https://www.aphis.usda.gov/livestock-poultry-disease/avian/virulent-newcastle" target="_blank" rel="noopener noreferrer">
-          <strong>USDA APHIS — Virulent Newcastle Disease</strong><br />
-          <span class="muted small">Disease overview including sudden death, gasping, watery diarrhea, ruffled feathers, appetite loss, tremors, twisting of the head and neck, and swelling around the eyes or neck.</span>
-        </a>
-
-        <a href="https://www.aphis.usda.gov/sites/default/files/biosecurity-workbook.pdf" target="_blank" rel="noopener noreferrer">
-          <strong>USDA APHIS — Biosecurity Workbook</strong><br />
-          <span class="muted small">Practical biosecurity guidance, including quarantine and daily observation of new birds.</span>
-        </a>
-
-        <a href="https://www.aphis.usda.gov/sites/default/files/bro-protect-poultry-from-ai.pdf" target="_blank" rel="noopener noreferrer">
-          <strong>USDA APHIS — Protect Your Poultry From Avian Influenza</strong><br />
-          <span class="muted small">Reference sheet on poultry protection practices and response information.</span>
-        </a>
-
-        <a href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/management-of-backyard-poultry" target="_blank" rel="noopener noreferrer">
-          <strong>Merck Veterinary Manual — Management of Backyard Poultry</strong><br />
-          <span class="muted small">Heat stress behavior, management observations, and backyard poultry care basics.</span>
-        </a>
-
-        <a href="https://www.merckvetmanual.com/exotic-and-laboratory-animals/backyard-poultry/common-infectious-diseases-in-backyard-poultry" target="_blank" rel="noopener noreferrer">
-          <strong>Merck Veterinary Manual — Common Infectious Diseases in Backyard Poultry</strong><br />
-          <span class="muted small">Backyard poultry disease overview including age-related coccidiosis patterns and other infectious concerns.</span>
-        </a>
-
-        <a href="https://extension.umd.edu/resource/raising-young-birds" target="_blank" rel="noopener noreferrer">
-          <strong>University of Maryland Extension — Raising Young Birds</strong><br />
-          <span class="muted small">Young-bird care basics including supplemental heat and brooder guidance.</span>
-        </a>
-
-        <a href="https://www.merckvetmanual.com/poultry/coccidiosis-in-poultry/coccidiosis-in-poultry" target="_blank" rel="noopener noreferrer">
-          <strong>Merck Veterinary Manual — Coccidiosis in Poultry</strong><br />
-          <span class="muted small">Diarrhea, weight loss, decreased production, and disease pattern information.</span>
-        </a>
-
-        <a href="https://www.merckvetmanual.com/poultry/staphylococcosis/staphylococcosis-in-poultry" target="_blank" rel="noopener noreferrer">
-          <strong>Merck Veterinary Manual — Staphylococcosis in Poultry</strong><br />
-          <span class="muted small">Bumblefoot / pododermatitis signs including swollen footpads and limping.</span>
-        </a>
-
-        <a href="https://www.merckvetmanual.com/poultry/disorders-of-the-reproductive-system-in-poultry/egg-bound-or-impacted-oviducts-in-poultry" target="_blank" rel="noopener noreferrer">
-          <strong>Merck Veterinary Manual — Egg-Bound or Impacted Oviducts in Poultry</strong><br />
-          <span class="muted small">Reproductive condition presentation details relevant to laying birds.</span>
-        </a>
-
-        <a href="https://extension.umn.edu/poultry-health/avian-influenza-basics-noncommercial-poultry-flock-owners" target="_blank" rel="noopener noreferrer">
-          <strong>University of Minnesota Extension — Avian influenza basics for noncommercial flock owners</strong><br />
-          <span class="muted small">New bird separation and additional flock protection practices.</span>
-        </a>
-
-        <a href="https://extension.unh.edu/resource/brooding-and-caring-chicks" target="_blank" rel="noopener noreferrer">
-          <strong>UNH Extension — Brooding and Caring for Chicks</strong><br />
-          <span class="muted small">First-week brooder temperature guidance and weekly reduction.</span>
-        </a>
+        <p>The disease triage logic and educational protocols in this app are based on the following documents:</p>
+        <ul>
+          <li><strong>Chicken Disease Research and Symptoms.pdf:</strong> Used for clinical symptom mapping, highly pathogenic viral strain identification, and differential disease logic.</li>
+          <li><strong>Avian Stewardship: A Comprehensive Report on Chicken Home Care, Triage Protocols, and Pathological Management.pdf:</strong> Used for brooder temperature guidelines, biosecurity measures, and end-of-life/necropsy protocols.</li>
+        </ul>
       </div>
     </section>
   </main>
 
-  <div class="footer">App by D. Boehmer</div>
-
   <script>
-    const STORAGE_KEY = "chicken_square_history_v4";
-
-    const SYMPTOMS = [
-      { id: "open_mouth_breathing", label: "Open-mouth breathing or gasping", group: "Respiratory / emergency" },
-      { id: "cough_sneeze", label: "Coughing or sneezing", group: "Respiratory" },
-      { id: "nasal_eye_discharge", label: "Nasal or eye discharge", group: "Respiratory / eye" },
-      { id: "facial_swelling", label: "Swelling around eyes, face, comb, or wattles", group: "Respiratory / head" },
-      { id: "purple_comb", label: "Purple or bluish comb / wattles / face", group: "Circulation" },
-      { id: "collapse", label: "Collapse or unresponsiveness", group: "Emergency" },
-      { id: "not_eating", label: "Not eating", group: "Intake" },
-      { id: "not_drinking", label: "Not drinking", group: "Intake" },
-      { id: "lethargy", label: "Very lethargic, weak, or hunched", group: "General illness" },
-      { id: "unable_stand", label: "Unable to stand or walk normally", group: "Mobility / neurologic" },
-      { id: "twisted_neck", label: "Twisting of head/neck, tremors, or poor coordination", group: "Neurologic" },
-      { id: "watery_diarrhea", label: "Watery diarrhea", group: "Droppings" },
-      { id: "bloody_droppings", label: "Bloody droppings", group: "Droppings / high concern" },
-      { id: "straining", label: "Straining or repeated nest-box effort", group: "Reproductive concern" },
-      { id: "swollen_abdomen", label: "Swollen or distended abdomen", group: "Reproductive / abdominal" },
-      { id: "wound", label: "Visible wound or predator injury", group: "Injury" },
-      { id: "significant_bleeding", label: "Significant ongoing bleeding", group: "Emergency" },
-      { id: "swollen_foot", label: "Swollen footpad, ulcer, black scab, or limping", group: "Foot / bumblefoot" },
-      { id: "heat_stress", label: "Panting, wings held away from body, heat exposure", group: "Environment / heat" }
-    ];
+    const STORAGE_KEY = 'chicken_square_history_v6';
+    const APP = {
+      birdTypes: ['Unknown', 'Chick', 'Growing bird / Pullet', 'Laying hen', 'Rooster', 'Older adult'],
+      ages: ['Unknown', 'Under 4 weeks', '4-16 weeks', '16-32 weeks', 'Adult', 'Older adult'],
+      durations: ['Today', 'Less than 24 hours', '1-3 days', 'More than 3 days'],
+      trajectories: ['Stable', 'Worsening', 'Improving'],
+      contexts: [
+        { id: 'multipleAffected', label: 'Multiple birds are dying or getting sick suddenly' },
+        { id: 'wildWaterfowl', label: 'Birds had exposure to wild ducks, geese, or open ponds' },
+        { id: 'dampCoop', label: 'Coop is damp or poorly ventilated' },
+        { id: 'newBirds', label: 'New birds were recently added to the flock' }
+      ],
+      categories: [
+        { id: 'respiratory', label: 'Breathing / Head / Eyes' },
+        { id: 'neurologic', label: 'Movement / Coordination / Paralysis' },
+        { id: 'droppings', label: 'Droppings / Gut / Weight' },
+        { id: 'reproductive', label: 'Egg laying / Abdomen' },
+        { id: 'skinFoot', label: 'Skin / Feathers / Feet' }
+      ],
+      symptoms: [
+        { id: 'purpleComb', label: 'Purple, blue, or very dark comb/wattles', categories: ['respiratory', 'droppings'] },
+        { id: 'headSwelling', label: 'Severe swelling around eyes and head', categories: ['respiratory'] },
+        { id: 'gasping', label: 'Open-mouth breathing or severe gasping', categories: ['respiratory'] },
+        { id: 'bloodyMucus', label: 'Coughing up bloody mucus (stretching neck to breathe)', categories: ['respiratory'] },
+        { id: 'bubblyEye', label: 'Foamy or bubbly eye with clicking breathing sounds', categories: ['respiratory'] },
+        { id: 'foulOdor', label: 'Foul-smelling facial swelling or discharge', categories: ['respiratory'] },
+        { id: 'twistedNeck', label: 'Twisted neck or looking straight up (stargazing)', categories: ['neurologic'] },
+        { id: 'splits', label: 'One leg forward, one leg back (doing the splits)', categories: ['neurologic'] },
+        { id: 'grayEye', label: 'Gray or cloudy eye with a weird pupil shape', categories: ['neurologic'] },
+        { id: 'tremors', label: 'Shaking, tremors, or very uncoordinated', categories: ['neurologic'] },
+        { id: 'wateryGreen', label: 'Bright watery green droppings', categories: ['droppings'] },
+        { id: 'bloodyDroppings', label: 'Bloody droppings and hunched posture', categories: ['droppings'] },
+        { id: 'pastyButt', label: 'White chalky diarrhea or vent blocked with poop (pasty butt)', categories: ['droppings'] },
+        { id: 'wasting', label: 'Severe weight loss with a pale comb', categories: ['droppings'] },
+        { id: 'penguinPosture', label: 'Penguin-like upright posture / swollen squishy belly', categories: ['reproductive'] },
+        { id: 'wrinkledEggs', label: 'Wrinkled, misshapen, or thin eggshells', categories: ['reproductive'] },
+        { id: 'straining', label: 'Straining to lay, wide stance, or hard egg felt in belly', categories: ['reproductive'] },
+        { id: 'scalyLegs', label: 'Thick, crusty, or raised scales on the legs', categories: ['skinFoot'] },
+        { id: 'dirtyVent', label: 'Dirty feathers near the vent with tiny moving specks', categories: ['skinFoot'] },
+        { id: 'wattleAbscess', label: 'Hard, swollen, yellow lump in the wattles', categories: ['skinFoot'] }
+      ],
+      education: [
+        {
+          title: 'Setting up the Brooder',
+          body: 'Start chicks at 95°F directly under the heat source for the first week. Lower the temperature by 5°F each week until you hit a minimum of 55°F. Give them 3-4 square feet per chick to prevent crowding and stress. Use 3-4 inches of pine shavings—never use cedar, as the oils are harmful. Keep the heat lamp safely suspended 20 inches above the bedding.'
+        },
+        {
+          title: 'Biosecurity (Keeping disease out)',
+          body: 'Keep any new or returning birds completely separate for 3-4 weeks before mixing them with your flock. Keep your chickens away from natural ponds and wild ducks to lower the risk of Avian Influenza. Store your feed in secure, rodent-proof bins to prevent diseases like Salmonella.'
+        },
+        {
+          title: 'Handling Losses and Suffering',
+          body: 'If a bird dies suddenly without a clear reason, contact your state diagnostic lab for a post-mortem exam (necropsy). This is the only way to catch highly contagious viruses or internal cancers early enough to protect the rest of your flock. If a bird is suffering with no chance of recovery, cervical dislocation (quickly separating the neck) is the most humane and rapid method.'
+        }
+      ]
+    };
 
     const DIAGNOSES = [
       {
-        id: "respiratory_complex",
-        label: "Respiratory disease pattern",
-        baseSummary: "Respiratory signs in chickens often overlap and can fit a broader respiratory disease pattern rather than one single condition.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("open_mouth_breathing")) score += 4;
-          if (s.has("cough_sneeze")) score += 3;
-          if (s.has("nasal_eye_discharge")) score += 3;
-          if (s.has("facial_swelling")) score += 3;
-          if (s.has("purple_comb")) score += 2;
-          if (data.multipleBirds) score += 2;
-          if (data.eggDrop && (s.has("cough_sneeze") || s.has("nasal_eye_discharge") || s.has("open_mouth_breathing"))) score += 3;
-          if (data.suddenDeaths) score += 3;
-          if (data.recentBirds) score += 1;
-          return score;
-        },
-        details(data) {
-          return {
-            fit:
-              data.birdType === "laying hen"
-                ? "Because the selected bird is a laying hen, a drop in egg production raises respiratory causes like infectious bronchitis higher on the list."
-                : "Bird type does not point to one specific respiratory diagnosis, but flock spread matters a lot.",
-            watch: "Watch for spread to other birds, more breathing effort, swelling, eye or nasal discharge, and egg-quality changes.",
-            matches: [
-              "Infectious bronchitis",
-              "Mycoplasma / chronic respiratory disease pattern",
-              "Newcastle / avian influenza style flock concern when the pattern is severe or spreading"
-            ]
-          };
-        }
+        id: 'hpai',
+        label: 'Highly Pathogenic Avian Influenza / Newcastle',
+        score: (d, s) => (s.has('purpleComb') * 3) + (s.has('headSwelling') * 3) + (d.multipleAffected * 4) + (d.wildWaterfowl * 2) + (s.has('twistedNeck') * 2) + (s.has('wateryGreen') * 2),
+        urgency: 'Emergency',
+        rationale: 'Sudden deaths, purple combs, head swelling, and neurologic signs indicate a major flock emergency.'
       },
       {
-        id: "coccidiosis_enteric",
-        label: "Coccidiosis or other intestinal disease pattern",
-        baseSummary: "Young birds with diarrhea, droopiness, or bloody droppings can fit coccidiosis or another intestinal disease pattern.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("watery_diarrhea")) score += 3;
-          if (s.has("bloody_droppings")) score += 5;
-          if (s.has("lethargy")) score += 2;
-          if (s.has("not_eating")) score += 2;
-          if (data.birdAge === "under 4 weeks") score += 3;
-          if (data.birdAge === "1-5 months") score += 2;
-          if (data.birdType === "chick" || data.birdType === "growing bird") score += 2;
-          return score;
-        },
-        details(data) {
-          return {
-            fit:
-              data.birdAge === "under 4 weeks" || data.birdType === "chick"
-                ? "This climbs higher because coccidiosis is especially common and dangerous in young birds."
-                : "This remains possible because intestinal disease can still affect older birds, but the age entered makes it less specific.",
-            watch: "Watch for worsening weakness, dehydration, weight loss, more blood in droppings, or additional birds starting similar signs.",
-            matches: [
-              "Coccidiosis",
-              "Enteric bacterial disease",
-              "Heavy intestinal parasite or gut inflammation pattern"
-            ]
-          };
-        }
+        id: 'ilt',
+        label: 'Infectious Laryngotracheitis (ILT)',
+        score: (d, s) => (s.has('bloodyMucus') * 5) + (s.has('gasping') * 2),
+        urgency: 'Urgent',
+        rationale: 'Coughing up bloody mucus while stretching the neck to breathe is a classic sign of ILT.'
       },
       {
-        id: "egg_binding_repro",
-        label: "Egg-binding or reproductive tract pattern",
-        baseSummary: "Straining and abdominal enlargement in laying hens can fit egg binding or another reproductive tract problem.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("straining")) score += 4;
-          if (s.has("swollen_abdomen")) score += 4;
-          if (s.has("lethargy")) score += 1;
-          if (s.has("not_eating")) score += 1;
-          if (data.birdType === "laying hen") score += 4;
-          if (data.birdAge === "6-12 months" || data.birdAge === "1-3 years" || data.birdAge === "over 3 years") score += 2;
-          if (data.birdType === "rooster" || data.birdType === "chick") score -= 3;
-          return score;
-        },
-        details(data) {
-          return {
-            fit:
-              data.birdType === "laying hen"
-                ? "Because the selected bird is a laying hen, reproductive causes move much higher when straining or abdominal swelling are selected."
-                : "This pattern is less likely when the bird type entered is not a laying hen.",
-            watch: "Watch for repeated nest-box effort, worsening abdominal swelling, weakness, collapse, or trouble passing an egg.",
-            matches: [
-              "Egg binding",
-              "Internal laying / reproductive tract issue",
-              "Salpingitis or egg-yolk peritonitis type reproductive concern"
-            ]
-          };
-        }
+        id: 'ibv',
+        label: 'Infectious Bronchitis Virus (IBV)',
+        score: (d, s) => (s.has('wrinkledEggs') * 4) + (s.has('penguinPosture') * 2) + (s.has('gasping') * 1),
+        urgency: 'Soon',
+        rationale: 'Misshapen or wrinkled eggs alongside breathing issues point toward Infectious Bronchitis.'
       },
       {
-        id: "mareks_neuro",
-        label: "Marek’s disease or paralysis pattern",
-        baseSummary: "Young birds with progressive leg weakness, inability to stand, or odd neurologic changes can fit Marek’s disease.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("unable_stand")) score += 4;
-          if (s.has("twisted_neck")) score += 2;
-          if (s.has("lethargy")) score += 1;
-          if (data.birdAge === "1-5 months") score += 4;
-          if (data.birdAge === "6-12 months") score += 2;
-          if (data.birdType === "growing bird") score += 2;
-          return score;
-        },
-        details() {
-          return {
-            fit: "This is more of a fit when paralysis is progressive and the bird is in the younger growing range.",
-            watch: "Watch for worsening leg weakness, one leg stretched forward and one back, weight loss, or abnormal neurologic changes.",
-            matches: [
-              "Marek’s disease",
-              "Other neurologic or spinal injury cause",
-              "Severe systemic illness causing weakness"
-            ]
-          };
-        }
+        id: 'mareks',
+        label: 'Marek\'s Disease',
+        score: (d, s) => (s.has('splits') * 4) + (s.has('grayEye') * 4) + (d.birdAge === '4-16 weeks' || d.birdAge === '16-32 weeks' ? 2 : 0),
+        urgency: 'Soon',
+        rationale: 'A gray eye or doing the splits (leg paralysis), especially in younger birds, points to Marek\'s disease.'
       },
       {
-        id: "avian_encephalomyelitis",
-        label: "Avian encephalomyelitis pattern",
-        baseSummary: "Fine tremors, poor coordination, and weakness in very young chicks can fit avian encephalomyelitis.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("twisted_neck")) score += 4;
-          if (s.has("unable_stand")) score += 2;
-          if (data.birdAge === "under 4 weeks") score += 5;
-          if (data.birdType === "chick") score += 3;
-          return score;
-        },
-        details() {
-          return {
-            fit: "This is mainly a young-chick pattern and should not rank highly for older birds unless the signs entered are very strong.",
-            watch: "Watch for fine head or neck tremors, balance problems, and progression through other chicks of similar age.",
-            matches: [
-              "Avian encephalomyelitis",
-              "Vitamin deficiency / nutritional neurologic issue",
-              "Toxic or infectious neurologic disease"
-            ]
-          };
-        }
+        id: 'mycoplasma',
+        label: 'Mycoplasma (MG)',
+        score: (d, s) => (s.has('bubblyEye') * 5) + (d.dampCoop * 2),
+        urgency: 'Routine',
+        rationale: 'Foamy or bubbly eyes with clicking breathing sounds are common indicators of Mycoplasma.'
       },
       {
-        id: "bumblefoot",
-        label: "Bumblefoot / footpad infection pattern",
-        baseSummary: "Limping with a swollen footpad, sore, or dark scab fits a classic bumblefoot pattern.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("swollen_foot")) score += 7;
-          if (s.has("unable_stand")) score += 1;
-          return score;
-        },
-        details() {
-          return {
-            fit: "A localized foot lesion is one of the more specific findings in this tool, so it weighs heavily here.",
-            watch: "Watch for worsening swelling, heat, drainage, worsening limp, or a second foot becoming affected.",
-            matches: [
-              "Bumblefoot / pododermatitis",
-              "Foot injury or puncture",
-              "Joint or tendon infection pattern"
-            ]
-          };
-        }
+        id: 'salmonella',
+        label: 'Pullorum / Salmonella',
+        score: (d, s) => (s.has('pastyButt') * 4) + (d.birdAge === 'Under 4 weeks' ? 3 : 0),
+        urgency: 'Urgent',
+        rationale: 'White diarrhea causing a blocked vent in young chicks is a strong warning for Pullorum disease.'
       },
       {
-        id: "heat_stress_pattern",
-        label: "Heat stress pattern",
-        baseSummary: "Panting, wings held away from the body, weakness, and heat exposure fit heat stress.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("heat_stress")) score += 6;
-          if (s.has("open_mouth_breathing")) score += 2;
-          if (s.has("lethargy")) score += 1;
-          if (s.has("collapse")) score += 2;
-          return score;
-        },
-        details() {
-          return {
-            fit: "This is more likely when the breathing change is clearly linked to environmental heat rather than respiratory discharge or flock spread.",
-            watch: "Watch for failure to recover after cooling, severe weakness, collapse, or more birds showing similar heat signs.",
-            matches: [
-              "Heat stress",
-              "Severe dehydration",
-              "Respiratory disease if discharge, coughing, or flock spread are also present"
-            ]
-          };
-        }
+        id: 'coccidiosis',
+        label: 'Coccidiosis',
+        score: (d, s) => (s.has('bloodyDroppings') * 5) + (d.birdAge === '4-16 weeks' || d.birdAge === 'Under 4 weeks' ? 2 : 0),
+        urgency: 'Urgent',
+        rationale: 'Bloody droppings and hunched posture in young, growing birds usually mean Coccidiosis.'
       },
       {
-        id: "injury_trauma",
-        label: "Injury / trauma pattern",
-        baseSummary: "Visible wounds, active bleeding, or sudden lameness can point to trauma or predator injury.",
-        score(data, s) {
-          let score = 0;
-          if (s.has("wound")) score += 5;
-          if (s.has("significant_bleeding")) score += 5;
-          if (s.has("unable_stand")) score += 1;
-          return score;
-        },
-        details() {
-          return {
-            fit: "This becomes more likely than disease when the problem is visibly localized to an injury site or began suddenly after a flock or predator event.",
-            watch: "Watch for continued bleeding, shock, worsening weakness, or contamination of the wound.",
-            matches: [
-              "Predator or pecking injury",
-              "Soft tissue trauma",
-              "Fracture or puncture pattern"
-            ]
-          };
-        }
+        id: 'egg_binding',
+        label: 'Egg Binding',
+        score: (d, s) => (s.has('straining') * 5) + (d.birdType === 'Laying hen' ? 2 : 0),
+        urgency: 'Urgent',
+        rationale: 'Straining, wide stance, or feeling a hard egg in the abdomen means the hen is dangerously egg bound.'
+      },
+      {
+        id: 'coryza',
+        label: 'Infectious Coryza',
+        score: (d, s) => (s.has('foulOdor') * 5) + (s.has('headSwelling') * 2),
+        urgency: 'Urgent',
+        rationale: 'Severe face swelling combined with a distinctly foul smell is typical of Coryza.'
+      },
+      {
+        id: 'parasites',
+        label: 'Mites / Scaly Leg',
+        score: (d, s) => (s.has('dirtyVent') * 4) + (s.has('scalyLegs') * 4),
+        urgency: 'Routine',
+        rationale: 'Dirty vent feathers with moving specks indicate mites; thick crusty legs indicate scaly leg mites.'
       }
     ];
 
     function init() {
-      renderSymptomList();
-      attachEvents();
-      renderHistory();
+      fillSelect('birdType', APP.birdTypes);
+      fillSelect('birdAge', APP.ages);
+      fillSelect('duration', APP.durations);
+      fillSelect('trajectory', APP.trajectories);
+      document.getElementById('contextContainer').innerHTML = APP.contexts.map(c => `<label class="checkbox-label"><input type="checkbox" id="${c.id}" /> <span>${c.label}</span></label>`).join('');
+      document.getElementById('categoryContainer').innerHTML = APP.categories.map((c, i) => `<label class="checkbox-label"><input type="radio" name="cat" value="${c.id}" ${i===0?'checked':''} onchange="renderSymptoms()" /> <span>${c.label}</span></label>`).join('');
+      renderSymptoms();
+      renderLearning();
       renderEmptyResults();
+      renderHistory();
     }
 
-    function attachEvents() {
-      document.querySelectorAll(".nav-btn").forEach(btn => {
-        btn.addEventListener("click", () => switchView(btn.dataset.view));
-      });
+    function fillSelect(id, items) { document.getElementById(id).innerHTML = items.map(v => `<option value="${v}">${v}</option>`).join(''); }
 
-      document.querySelectorAll("[data-view-target]").forEach(btn => {
-        btn.addEventListener("click", () => switchView(btn.dataset.viewTarget));
-      });
-
-      document.getElementById("start-checker-btn").addEventListener("click", () => switchView("checker"));
-      document.getElementById("run-assessment-btn").addEventListener("click", handleAssessment);
-      document.getElementById("reset-assessment-btn").addEventListener("click", resetForm);
-      document.getElementById("clear-history-btn").addEventListener("click", clearHistory);
+    function renderSymptoms() {
+      const cat = document.querySelector('input[name="cat"]:checked').value;
+      const list = APP.symptoms.filter(s => s.categories.includes(cat));
+      document.getElementById('symptomContainer').innerHTML = list.map(s => `<label class="checkbox-label"><input type="checkbox" value="${s.id}" data-role="symptom" /> <span>${s.label}</span></label>`).join('');
     }
 
-    function switchView(viewName) {
-      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-
-      const view = document.getElementById("view-" + viewName);
-      if (view) view.classList.add("active");
-
-      const nav = document.querySelector('.nav-btn[data-view="' + viewName + '"]');
-      if (nav) nav.classList.add("active");
-
-      if (viewName === "history") renderHistory();
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function renderSymptomList() {
-      const wrap = document.getElementById("symptom-list");
-      wrap.innerHTML = SYMPTOMS.map(sym => `
-        <label class="option">
-          <input type="checkbox" name="symptom" value="${sym.id}" />
-          <span>
-            <strong>${sym.label}</strong><br />
-            <span class="tiny muted">${sym.group}</span>
-          </span>
-        </label>
-      `).join("");
-    }
-
-    function selectedSymptoms() {
-      return [...document.querySelectorAll('input[name="symptom"]:checked')].map(n => n.value);
-    }
-
-    function handleAssessment() {
-      const data = {
-        birdType: document.getElementById("bird-type").value,
-        birdAge: document.getElementById("bird-age").value,
-        duration: document.getElementById("duration").value,
-        trajectory: document.getElementById("trajectory").value,
-        multipleBirds: document.getElementById("multiple-birds").checked,
-        recentBirds: document.getElementById("recent-birds").checked,
-        suddenDeaths: document.getElementById("sudden-deaths").checked,
-        eggDrop: document.getElementById("egg-drop").checked,
-        symptoms: selectedSymptoms()
-      };
-
-      const result = evaluate(data);
-      saveHistory(data, result);
-      renderResults(data, result);
-      switchView("results");
-    }
-
-    function evaluate(data) {
-      const s = new Set(data.symptoms);
-
-      const respiratory =
-        s.has("open_mouth_breathing") ||
-        s.has("cough_sneeze") ||
-        s.has("nasal_eye_discharge") ||
-        s.has("facial_swelling");
-
-      const neuro = s.has("twisted_neck");
-      const poorIntake = s.has("not_eating") || s.has("not_drinking");
-      const noFoodNoWater = s.has("not_eating") && s.has("not_drinking");
-      const diarrhea = s.has("watery_diarrhea") || s.has("bloody_droppings");
-      const reproductivePattern = s.has("straining") || s.has("swollen_abdomen");
-
-      const severePattern =
-        s.has("collapse") ||
-        s.has("significant_bleeding") ||
-        s.has("open_mouth_breathing") ||
-        data.suddenDeaths;
-
-      const multiplePattern =
-        data.multipleBirds && (respiratory || diarrhea || neuro || data.eggDrop);
-
-      let level = "Soon";
-      let title = "Monitor closely";
-      let why = "The selected pattern is concerning and worth following closely.";
-      let actions = [
-        "Make water and feed easy to reach and keep the area calm and dry.",
-        "Recheck breathing, posture, droppings, and appetite through the day.",
-        "Escalate sooner if the bird worsens or more birds begin showing the same signs."
-      ];
-
-      if (!data.symptoms.length) {
-        level = "Routine";
-        title = "No symptom pattern selected";
-        why = "Choose symptoms to generate a more specific set of likely matches.";
-        actions = [
-          "Select the signs you are seeing.",
-          "Use bird type and age so the ranking can change appropriately.",
-          "Open the Sources tab for the reference pages used in this build."
-        ];
-      } else if (
-        severePattern ||
-        (data.multipleBirds && (s.has("purple_comb") || neuro || respiratory)) ||
-        (s.has("unable_stand") && data.trajectory === "worsening")
-      ) {
-        level = "Emergency";
-        title = "Emergency response needed";
-        why = "Severe breathing effort, collapse, major bleeding, sudden deaths, or a fast-spreading flock pattern can signal a life-threatening or serious flock problem.";
-        actions = [
-          "Reduce handling and separate only as needed for safety and observation.",
-          "Contact a veterinarian or poultry-health resource right away.",
-          "If there are sudden deaths or suspicious flock-wide respiratory or neurologic signs, seek official animal health guidance right away.",
-          "Pause movement of birds, equipment, and visitors until you have guidance."
-        ];
-      } else if (
-        noFoodNoWater ||
-        s.has("unable_stand") ||
-        s.has("bloody_droppings") ||
-        reproductivePattern ||
-        s.has("wound") ||
-        s.has("heat_stress") ||
-        multiplePattern ||
-        (poorIntake && data.trajectory === "worsening")
-      ) {
-        level = "Urgent";
-        title = "Urgent follow-up";
-        why = "The selected pattern includes same-day concerns such as bloody droppings, poor intake, inability to stand, straining, heat stress, or flock spread.";
-        actions = [
-          "Move the bird to a quiet, clean observation setup if needed.",
-          "Check for drinking, worsening weakness, and spread to flockmates.",
-          "Get same-day poultry-health or veterinary guidance, especially if the bird is young, worsening, or more than one bird is affected."
-        ];
-      }
-
-      const diagnoses = DIAGNOSES
-        .map(rule => {
-          const score = Math.max(0, rule.score(data, s));
-          const details = rule.details(data);
-          return {
-            id: rule.id,
-            label: rule.label,
-            baseSummary: rule.baseSummary,
-            score,
-            fit: details.fit,
-            watch: details.watch,
-            matches: details.matches,
-            confidence:
-              score >= 9 ? "Higher match" :
-              score >= 6 ? "Moderate match" :
-              score >= 4 ? "Possible match" :
-              "Low match"
-          };
-        })
-        .filter(item => item.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 4);
-
-      const monitoring = [];
-      if (poorIntake) monitoring.push("Whether the bird is actually drinking and swallowing");
-      if (respiratory) monitoring.push("Breathing effort, discharge, swelling, and whether other birds begin coughing or sneezing");
-      if (diarrhea) monitoring.push("Droppings for blood, worsening wateriness, or dehydration");
-      if (reproductivePattern) monitoring.push("Any continued straining or increasing abdominal swelling");
-      if (s.has("swollen_foot")) monitoring.push("Whether the bird is bearing weight and whether the foot lesion is becoming larger or draining");
-      if (data.multipleBirds || data.recentBirds) monitoring.push("Flock spread after recent additions, visitors, or shared equipment");
-      if (!monitoring.length) monitoring.push("Energy, posture, appetite, droppings, and any new symptoms");
-
-      const contextNotes = [];
-      if (data.birdType === "laying hen") contextNotes.push("Laying hen selected: reproductive causes and egg-drop-linked respiratory causes are weighted higher.");
-      if (data.birdType === "chick") contextNotes.push("Chick selected: young-bird causes like coccidiosis and avian encephalomyelitis are weighted higher.");
-      if (data.birdType === "growing bird") contextNotes.push("Growing bird selected: Marek’s-style weakness patterns and coccidiosis gain more weight.");
-      if (data.birdAge === "under 4 weeks") contextNotes.push("Under 4 weeks selected: early-age intestinal and tremor/weakness patterns climb higher.");
-      if (data.birdAge === "1-5 months") contextNotes.push("1-5 months selected: Marek’s-style paralysis patterns receive more weight.");
-      if (data.birdAge === "over 3 years") contextNotes.push("Older age selected: general illness remains possible, while very young-bird conditions are pushed lower.");
-      if (!contextNotes.length) contextNotes.push("Adding bird type and age makes the match ranking more specific.");
-
-      return { level, title, why, actions, diagnoses, monitoring, contextNotes };
-    }
-
-    function renderResults(data, result) {
-      const levelClass = result.level.toLowerCase();
-
-      const summary = `
-        <div class="card result-card level-${levelClass}">
-          <div class="status-tag status-${levelClass}">${escapeHtml(result.title)}</div>
-          <h3>${escapeHtml(result.level)}</h3>
-          <p><strong>Why this level:</strong> ${escapeHtml(result.why)}</p>
-
-          <div class="alert ${result.level === "Emergency" ? "danger" : result.level === "Urgent" ? "warn" : result.level === "Routine" ? "ok" : ""}">
-            <strong>Immediate next steps</strong>
-            <ul class="checklist">
-              ${result.actions.map(a => `<li>${escapeHtml(a)}</li>`).join("")}
-            </ul>
-          </div>
-
-          <div class="pill-row">
-            <span class="mini-pill">Bird type: ${escapeHtml(data.birdType)}</span>
-            <span class="mini-pill">Age: ${escapeHtml(data.birdAge)}</span>
-            <span class="mini-pill">Duration: ${escapeHtml(data.duration)}</span>
-            <span class="mini-pill">Trend: ${escapeHtml(data.trajectory)}</span>
-          </div>
-        </div>
-      `;
-
-      const diagnosesMarkup = result.diagnoses.length
-        ? result.diagnoses.map(d => `
-          <div class="diagnosis-card">
-            <div class="diagnosis-head">
-              <strong>${escapeHtml(d.label)}</strong>
-              <span class="confidence-chip">${escapeHtml(d.confidence)}</span>
-            </div>
-            <div class="score-wrap">
-              <div class="score-fill" style="width:${Math.min(100, d.score * 10)}%"></div>
-            </div>
-            <p class="small"><strong>Why it may fit:</strong> ${escapeHtml(d.baseSummary)}</p>
-            <p class="small"><strong>Bird type / age effect:</strong> ${escapeHtml(d.fit)}</p>
-            <p class="small"><strong>Possible matches under this pattern:</strong> ${escapeHtml(d.matches.join(", "))}</p>
-            <p class="small"><strong>Watch next:</strong> ${escapeHtml(d.watch)}</p>
-          </div>
-        `).join("")
-        : `<div class="card empty-state">No strong pattern rose to the top from the current selections. Add more detail to narrow the list.</div>`;
-
-      const side = `
-        <div class="card">
-          <h3 class="result-section-title">Likely patterns from this combination</h3>
-          <div class="diagnosis-list">${diagnosesMarkup}</div>
-        </div>
-
-        <div class="card">
-          <h3 class="result-section-title">Why age and bird type changed the result</h3>
-          <ul class="checklist">
-            ${result.contextNotes.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div class="detail-grid">
-          <div class="detail-box">
-            <strong>What to monitor next</strong>
-            <ul class="checklist">
-              ${result.monitoring.map(item => `<li>${escapeHtml(item)}</li>`).join("")}
-            </ul>
-          </div>
-
-          <div class="detail-box">
-            <strong>Selected symptoms</strong>
-            <ul class="checklist">
-              ${
-                data.symptoms.length
-                  ? data.symptoms.map(id => `<li>${escapeHtml(prettySymptom(id))}</li>`).join("")
-                  : "<li>No symptoms selected</li>"
-              }
-            </ul>
-          </div>
-        </div>
-      `;
-
-      document.getElementById("result-main").innerHTML = summary;
-      document.getElementById("result-side").innerHTML = side;
+    function renderLearning() {
+      document.getElementById('learnContent').innerHTML = APP.education.map(section => `<div class="card"><h3>${section.title}</h3><p>${section.body}</p></div>`).join('');
     }
 
     function renderEmptyResults() {
-      document.getElementById("result-main").innerHTML = `
-        <div class="card result-card level-routine">
-          <div class="status-tag status-routine">No assessment yet</div>
-          <h3>Run the symptom checker</h3>
-          <p>Once you submit an assessment, this page will rank likely patterns from the selected symptom combination.</p>
-        </div>
-      `;
-
-      document.getElementById("result-side").innerHTML = `
-        <div class="card">
-          <h3 class="result-section-title">What changes the ranking</h3>
-          <ul class="checklist">
-            <li>Bird type, bird age, and the exact symptom combination</li>
-            <li>Flock spread, sudden deaths, and egg-production changes</li>
-            <li>Whether the symptom combination looks localized, intestinal, respiratory, neurologic, or reproductive</li>
-          </ul>
-        </div>
-      `;
+      document.getElementById('resultsPrimary').innerHTML = '<div class="card level-card level-Routine"><div class="tag tag-Routine">No assessment yet</div><h3>Run the symptom checker</h3><p>Your results and urgency level will appear here.</p></div>';
+      document.getElementById('resultsSecondary').innerHTML = '';
     }
 
-    function saveHistory(data, result) {
-      const record = {
-        ts: new Date().toLocaleString(),
-        birdType: data.birdType,
-        birdAge: data.birdAge,
-        level: result.level,
-        title: result.title,
-        topDiagnosis: result.diagnoses[0] ? result.diagnoses[0].label : "No strong match",
-        symptoms: data.symptoms
+    function runAssessment() {
+      const data = {
+        birdType: document.getElementById('birdType').value,
+        birdAge: document.getElementById('birdAge').value,
+        multipleAffected: document.getElementById('multipleAffected').checked,
+        wildWaterfowl: document.getElementById('wildWaterfowl').checked,
+        dampCoop: document.getElementById('dampCoop').checked,
+        newBirds: document.getElementById('newBirds').checked
       };
-
-      const current = readHistory();
-      current.unshift(record);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(current.slice(0, 30)));
-      renderHistory();
-    }
-
-    function readHistory() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-      } catch {
-        return [];
-      }
-    }
-
-    function renderHistory() {
-      const list = document.getElementById("history-list");
-      const history = readHistory();
-
-      if (!history.length) {
-        list.innerHTML = "<li>No saved assessments yet.</li>";
+      
+      const symptomsList = [...document.querySelectorAll('input[data-role="symptom"]:checked')].map(n => n.value);
+      const symptomsSet = new Set(symptomsList);
+      
+      if(symptomsSet.size === 0) {
+        alert("Please select at least one symptom.");
         return;
       }
 
-      list.innerHTML = history.map(item => `
-        <li>
-          <strong>${escapeHtml(item.ts)}</strong><br />
-          <span class="muted small">${escapeHtml(item.level)} · ${escapeHtml(item.birdType)} · ${escapeHtml(item.birdAge)}</span><br />
-          <span class="muted small">Top match: ${escapeHtml(item.topDiagnosis)}</span><br />
-          <span class="muted tiny">Symptoms: ${item.symptoms.length ? item.symptoms.map(prettySymptom).join(", ") : "none selected"}</span>
-        </li>
-      `).join("");
+      let results = DIAGNOSES.map(d => ({ ...d, score: d.score(data, symptomsSet) })).filter(d => d.score > 0).sort((a, b) => b.score - a.score);
+      const topResult = results[0];
+      const urgency = topResult ? topResult.urgency : 'Routine';
+
+      document.getElementById('resultsPrimary').innerHTML = `
+        <div class="card level-card level-${urgency}">
+          <div class="tag tag-${urgency}">${urgency}</div>
+          <h3>Urgency Level</h3>
+          <p>Based on the symptoms selected, this is classified as <strong>${urgency}</strong>.</p>
+          ${data.multipleAffected ? '<div class="alert alert-warning"><strong>Flock Warning:</strong> Multiple birds affected. Separate the sick birds and practice strict biosecurity immediately.</div>' : ''}
+          <div class="pill-row">
+            <span class="pill">Type: ${data.birdType}</span>
+            <span class="pill">Age: ${data.birdAge}</span>
+          </div>
+        </div>
+      `;
+
+      if (results.length === 0) {
+         document.getElementById('resultsSecondary').innerHTML = '<div class="card"><h3>Results</h3><p>The selected symptoms do not strongly match a specific severe illness in the database. Monitor closely and re-evaluate if new signs appear.</p></div>';
+      } else {
+         document.getElementById('resultsSecondary').innerHTML = `<div class="card"><h3>Top Matches</h3><div class="diagnosis-list">` + 
+          results.slice(0, 4).map(d => `
+          <div class="diagnosis-card">
+            <div class="diagnosis-head"><strong>${d.label}</strong></div>
+            <p style="font-size: 0.9rem;"><strong>Why it matched:</strong> ${d.rationale}</p>
+          </div>
+        `).join('') + `</div></div>`;
+      }
+      
+      saveHistory(urgency, topResult ? topResult.label : 'General');
+      navigate('results');
     }
 
-    function clearHistory() {
-      localStorage.removeItem(STORAGE_KEY);
+    function saveHistory(level, match) {
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      items.unshift({ ts: new Date().toLocaleString(), level, match });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(0, 20)));
       renderHistory();
     }
 
-    function resetForm() {
-      document.getElementById("bird-type").value = "unknown";
-      document.getElementById("bird-age").value = "unknown";
-      document.getElementById("duration").value = "today";
-      document.getElementById("trajectory").value = "stable";
-      ["multiple-birds", "recent-birds", "sudden-deaths", "egg-drop"].forEach(id => {
-        document.getElementById(id).checked = false;
-      });
-      document.querySelectorAll('input[name="symptom"]').forEach(n => {
-        n.checked = false;
-      });
+    function renderHistory() {
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      const wrap = document.getElementById('historyList');
+      if (!items.length) { wrap.innerHTML = '<div class="history-item">No saved assessments yet.</div>'; return; }
+      wrap.innerHTML = items.map(item => `<div class="history-item"><div class="history-meta"><span>${item.ts}</span><span>${item.level}</span></div><div><strong>${item.match}</strong></div></div>`).join('');
     }
 
-    function prettySymptom(id) {
-      const match = SYMPTOMS.find(s => s.id === id);
-      return match ? match.label : id;
+    function clearHistory() { localStorage.removeItem(STORAGE_KEY); renderHistory(); }
+    
+    function resetChecker() {
+      document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
+      document.getElementById('birdType').selectedIndex = 0;
+      document.getElementById('birdAge').selectedIndex = 0;
+      document.querySelectorAll('input[name="cat"]')[0].checked = true;
+      renderSymptoms();
     }
 
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+    function toggleMobileMenu() {
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+
+    function openRecipeMenu() { navigate('recipe'); }
+
+    function navigate(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.nav-inner button').forEach(b => b.classList.remove('active'));
+      document.getElementById('view-' + viewId).classList.add('active');
+      document.getElementById('nav-' + viewId).classList.add('active');
+      document.getElementById('navCurrentLabel').textContent = document.getElementById('nav-' + viewId).textContent;
+      document.getElementById('navMenu').classList.remove('open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     init();
